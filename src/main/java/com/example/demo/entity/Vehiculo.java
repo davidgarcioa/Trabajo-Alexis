@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// Entidad JPA que representa los vehiculos asegurados.
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "vehiculos")
 @Data
@@ -32,4 +34,13 @@ public class Vehiculo {
 
     @Column(name = "color", nullable = false, length = 50)
     private String color;
+
+    // Relacion uno a uno: cada vehiculo tiene un conductor asignado.
+    @OneToOne
+    @JoinColumn(name = "id_conductor")
+    private Conductor conductor;
+
+    // Relacion uno a muchos: un vehiculo puede tener varias polizas.
+    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Seguro> seguros = new ArrayList<>();
 }

@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		// Arranca la aplicacion Spring Boot y el servidor embebido.
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
