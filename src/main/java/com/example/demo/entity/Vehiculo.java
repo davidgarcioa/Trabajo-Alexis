@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+// Entidad JPA que representa los vehiculos asegurados.
+// Incluye relaciones a Conductor (1:1) y Seguro (1:N) segun el manual.
 @Entity
 @Table(name = "vehiculos")
 @Data
@@ -35,7 +37,7 @@ public class Vehiculo {
     @Column(name = "color", nullable = false, length = 50)
     private String color;
 
-    // Relacion uno a uno: cada vehiculo tiene un conductor asignado.
+    // Relacion uno a uno: cada vehiculo tiene un conductor asignado y viceversa.
     @OneToOne
     @JoinColumn(name = "id_conductor")
     private Conductor conductor;
