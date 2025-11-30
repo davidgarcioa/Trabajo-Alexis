@@ -18,11 +18,22 @@ public class VehiculoServiceImpl implements VehiculoService {
     @Autowired
     private VehiculoRepository vehiculoRepository;
 
+    @Autowired
+    private ConductorRepository conductorRepository;
+
     @Override
     public Vehiculo crear(Vehiculo vehiculo) {
         // Valida que la placa no exista antes de crear el registro.
         if (vehiculoRepository.existsByPlaca(vehiculo.getPlaca())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La placa ya esta registrada");
+        }
+        // Si viene conductor, valida que exista en BD antes de asociarlo.
+        if (vehiculo.getConductor() != null && vehiculo.getConductor().getIdConductor() != null) {
+            Conductor conductor = conductorRepository.findById(vehiculo.getConductor().getIdConductor())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Conductor no encontrado"));
+            vehiculo.setConductor(conductor);
+        } else {
+            vehiculo.setConductor(null);
         }
         return vehiculoRepository.save(vehiculo);
     }
@@ -52,6 +63,13 @@ public class VehiculoServiceImpl implements VehiculoService {
         existente.setModelo(vehiculo.getModelo());
         existente.setAnio(vehiculo.getAnio());
         existente.setColor(vehiculo.getColor());
+
+        // Si se envia conductor, valida que exista. Si no se envia, deja la relacion como esta.
+        if (vehiculo.getConductor() != null && vehiculo.getConductor().getIdConductor() != null) {
+            Conductor conductor = conductorRepository.findById(vehiculo.getConductor().getIdConductor())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Conductor no encontrado"));
+            existente.setConductor(conductor);
+        }
 
         return vehiculoRepository.save(existente);
     }
