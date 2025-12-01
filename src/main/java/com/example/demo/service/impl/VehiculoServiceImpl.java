@@ -1,6 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entity.Conductor;
 import com.example.demo.entity.Vehiculo;
+import com.example.demo.repository.ConductorRepository;
 import com.example.demo.repository.VehiculoRepository;
 import com.example.demo.service.VehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
